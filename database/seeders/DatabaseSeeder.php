@@ -14,6 +14,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
        // pemanggilan class sample data
-       $this->call(SiswaTableSeeder::class);
+       $this->call(PostTableSeeder::class);
     }
 }
