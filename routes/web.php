@@ -179,3 +179,14 @@ Route::resource('produk', App\Http\Controllers\ProdukController::class)->middlew
 // tugas biodata
 Route::resource('biodata', App\Http\Controllers\BiodataController::class)->middleware('auth');
 
+
+
+use App\Http\Controllers\RelasiController;
+
+Route::get('/one-to-one', [RelasiController::class, 'oneToONe']);
+Route::get('/one-to-many', [RelasiController::class, 'oneToMany']);
+Route::get('/many-to-many', [RelasiController::class, 'manyToMany']);
+
+
+Route::get('eloquent', [RelasiController::class, 'eloquent']);
+

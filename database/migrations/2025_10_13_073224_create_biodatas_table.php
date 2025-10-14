@@ -6,37 +6,23 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
     public function up(): void
     {
         Schema::create('biodatas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
             $table->date('tgl_lahir');
-            $table->enum('jk', ['laki-laki', 'perempuan']);
-            $table->enum('agama', [
-                'Islam',
-                'hindu',
-                'katolik',
-                'buddha',
-                'konghucu',
-            ]);
+            $table->enum('jk', ['Laki-laki', 'Perempuan']);
+            $table->string('agama');
             $table->text('alamat');
-            $table->integer('tb');
-            $table->integer('bb');
-            $table->string('foto');
+            $table->integer('tinggi_badan');
+            $table->integer('berat_badan');
+            $table->string('foto')->nullable();
             $table->timestamps();
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('biodatas');
-            ;
     }
 };
