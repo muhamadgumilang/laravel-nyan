@@ -168,4 +168,14 @@ Route::post('post', [Postcontroller::class, 'store'])->name('post.store');
 Route::get('post/{id}/edit', [Postcontroller::class, 'edit'])->name('post.edit');
 Route::put('post/{id}', [Postcontroller::class, 'update'])->name('post.update');
 Route::delete('post/{id}', [Postcontroller::class, 'destroy'])->name('post.delete');
+Route::get('post/{id}', [Postcontroller::class, 'show'])->name('post.show');
+
+
+
+Route::resource('produk', App\Http\Controllers\ProdukController::class)->middleware('auth');
+
+
+
+// tugas biodata
+Route::resource('biodata', App\Http\Controllers\BiodataController::class)->middleware('auth');
 
