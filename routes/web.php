@@ -3,6 +3,9 @@
 use Illuminate\Support\Facades\Route;
 use App\http\Controllers\Mycontroller;
 use App\Http\Controllers\Postcontroller;
+use App\Http\Controllers\DosenController;
+use App\Http\Controllers\HobiController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -189,4 +192,10 @@ Route::get('/many-to-many', [RelasiController::class, 'manyToMany']);
 
 
 Route::get('eloquent', [RelasiController::class, 'eloquent']);
+
+
+
+Route::resource('dosen', DosenController::class);
+Route::resource('hobi', HobiController::class);
+
 

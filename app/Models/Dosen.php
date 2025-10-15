@@ -7,11 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Dosen extends Model
 {
-    protected $fillable = ['nama', 'nipd'];
+    protected $fillable = ['nama', 'nipd',];
+    
 
     public function mahasiswas()
     {
         return $this->hasMany(Mahasiswa::class, 'id_dosen');
     }
 }
+
 
