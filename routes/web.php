@@ -198,4 +198,9 @@ Route::get('eloquent', [RelasiController::class, 'eloquent']);
 Route::resource('dosen', DosenController::class);
 Route::resource('hobi', HobiController::class);
 
+// route mahasiswa
+Route::resource('mahasiswa', App\Http\Controllers\MahasiswaController::class);
 
+
+// crud wali
+Route::resource('wali', App\Http\Controllers\WaliController::class);
