@@ -3,25 +3,25 @@
 namespace App\Http\Controllers;
 
 use App\Models\Dosen;
+use App\Models\Hobi;
+
 use App\Models\Mahasiswa;
 use Illuminate\Http\Request;
 
 class mahasiswaController extends Controller
 {
-    
     public function index()
     {
         $mahasiswas = Mahasiswa::latest()->get();
         return view('mahasiswa.index', compact('mahasiswas'));
     }
 
-    
     public function create()
     {
         $dosen = Dosen::all();
-        return view('mahasiswa.create', compact('dosen'));
+        $hobi = Hobi::all();
+        return view('mahasiswa.create', compact('dosen', 'hobi'));
     }
-
    
     public function store(Request $request)
     {
@@ -36,9 +36,10 @@ class mahasiswaController extends Controller
         $mahasiswa->nim      = $request->nim;
         $mahasiswa->id_dosen = $request->id_dosen;
         $mahasiswa->save();
+        // atach (melampirkan banyak data atau many to many)
+        $mahasiswa->hobis()->attach ($request->hobi);
         return redirect()->route('mahasiswa.index');
     }
-
    
     public function show(string $id)
     {
@@ -46,12 +47,13 @@ class mahasiswaController extends Controller
         return view('mahasiswa.show', compact('mahasiswa'));
     }
 
-    
+
     public function edit(string $id)
     {
         $mahasiswa = Mahasiswa::findOrFail($id);
         $dosen = Dosen::all();
-        return view('mahasiswa.edit', compact('mahasiswa', 'dosen'));
+        $hobi = Hobi::all();
+        return view('mahasiswa.edit', compact('mahasiswa', 'dosen', 'hobi'));
     }   
 
    
@@ -59,7 +61,7 @@ class mahasiswaController extends Controller
     {
         $validate = $request->validate([
             'nama'     => 'required',
-            'nim'      => 'required|unique:mahasiswas',
+            'nim'      => 'required',
             'id_dosen' => 'required|exists:dosens,id', 
         ]);
 
@@ -68,13 +70,18 @@ class mahasiswaController extends Controller
         $mahasiswa->nim      = $request->nim;
         $mahasiswa->id_dosen = $request->id_dosen;
         $mahasiswa->save();
+        // sync (memperbarui data yang diubah dari many to many)
+        $mahasiswa->hobis()->sync($request->hobi);
         return redirect()->route('mahasiswa.index');
     }
 
     public function destroy(string $id)
     {
         $mahasiswa = Mahasiswa::findOrFail($id);
-        $mahasiswa->delete();
+        //detach (menghapus data yang terkait dari mahasiswa dan hobi)
+        //menghapus data di relasi table pivot
+        $mahasiswa->hobis()->detach();
+         $mahasiswa->delete();
         return redirect()->route('mahasiswa.index');
     }
 }

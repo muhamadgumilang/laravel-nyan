@@ -1,140 +1,46 @@
 @extends('layouts.app')
-
 @section('content')
-    <style>
-        body {
-            background: linear-gradient(135deg, #fdfbfb 0%, #ebedee 100%);
-            min-height: 100vh;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .container {
-            margin-top: 50px;
-            margin-bottom: 50px;
-        }
-
-        .card {
-            border: none;
-            border-radius: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            background: #fff;
-            overflow: hidden;
-            transition: all 0.3s ease-in-out;
-        }
-
-        .card:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.12);
-        }
-
-        .card-header {
-            background: linear-gradient(90deg, #007bff, #00bfff);
-            color: white;
-            font-weight: 600;
-            font-size: 1.1rem;
-            padding: 15px 25px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        .card-body {
-            padding: 30px;
-        }
-
-        .card-body h4 {
-            font-weight: 700;
-            color: #333;
-        }
-
-        .card-body p {
-            color: #555;
-            font-size: 16px;
-            margin-top: 10px;
-        }
-
-        .btn-outline-primary {
-            border-radius: 10px;
-            transition: 0.3s;
-        }
-
-        .btn-outline-primary:hover {
-            background-color: #fff;
-            color: #007bff;
-            transform: scale(1.05);
-        }
-
-        .info-box {
-            background: #f9fbff;
-            border-radius: 12px;
-            padding: 20px;
-            border-left: 5px solid #007bff;
-            margin-top: 20px;
-        }
-
-        .info-label {
-            font-weight: 600;
-            color: #007bff;
-            margin-bottom: 5px;
-        }
-
-        .info-value {
-            font-size: 17px;
-            color: #333;
-        }
-
-        footer {
-            text-align: center;
-            color: #888;
-            margin-top: 40px;
-            font-size: 14px;
-        }
-    </style>
-
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-md-8">
-                <div class="card shadow-sm">
-                    <div class="card-header d-flex justify-content-between align-items-center">
-                        Ini Diaa!!!
-                        <a href="{{ route('mahasiswa.index') }}" class="btn btn-sm btn-outline-primary">Kembali</a>
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header">
+                    <div class="float-start">
+                        {{ __('Mahasiswa') }}
                     </div>
+                    <div class="float-end">
+                        <a href="{{ route('mahasiswa.create') }}" class="btn btn-sm btn-outline-primary">Tambah Data</a>
+                    </div>
+                </div>
 
-                    <div class="card-body">
-
-                        <h4 class="fw-bold">{{ $mahasiswa->nama }}</h4>
-                        <p class="mt-2 mb-1">NIM: <strong>{{$mahasiswa->nim}}</strong></p>
-                        <p><strong>Dosen Pembimbing:</strong> {{ $mahasiswa->dosen->nama }}</p>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <tr>
+                                <th>Nama Mahasiswa</th>
+                                <td>{{$mahasiswa->nama}}</td>
+                            </tr>
+                            <tr>
+                                <th>Dosen Pengampu</th>
+                                <td>{{$mahasiswa->dosen->nama}}</td>
+                            </tr>
+                            <tr>
+                                <th>Nama Wali</th>
+                                <td>{{$mahasiswa->wali->nama ?? '-'}}</td>
+                            </tr>
+                            <tr>
+                                <th>Daftar Hobi </th>
+                                <td>
+                                    @foreach ($mahasiswa->hobis as $hobi)
+                                    <li>{{$hobi->nama_hobi}}</li>
+                                    @endforeach
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-
-
-    <div class="container py-5">
-        <footer class="d-flex flex-wrap justify-content-between align-items-center py-3 my-4 border-top">
-            <div class="col-md-4 d-flex align-items-center">
-                <a href="/" class="mb-3 me-2 mb-md-0 text-muted text-decoration-none lh-1">
-                    <svg class="bi" width="30" height="24">
-                        <use xlink:href="#bootstrap"></use>
-                    </svg>
-                </a>
-                <span class="text-muted">Muhamad Gumilang (Nyanz) XI RPL 3 </span>
-            </div>
-
-            <ul class="nav col-md-4 justify-content-end list-unstyled d-flex">
-                <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
-                            <use xlink:href="#twitter"></use>
-                        </svg></a></li>
-                <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
-                            <use xlink:href="#instagram"></use>
-                        </svg></a></li>
-                <li class="ms-3"><a class="text-muted" href="#"><svg class="bi" width="24" height="24">
-                            <use xlink:href="#facebook"></use>
-                        </svg></a></li>
-            </ul>
-        </footer>
-    </div>
-
+</div>
 @endsection

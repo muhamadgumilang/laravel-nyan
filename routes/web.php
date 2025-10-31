@@ -204,3 +204,11 @@ Route::resource('mahasiswa', App\Http\Controllers\MahasiswaController::class);
 
 // crud wali
 Route::resource('wali', App\Http\Controllers\WaliController::class);
+
+
+// 5
+use App\Http\Controllers\PelangganController;
+
+Route::resource('pelanggan', PelangganController::class);
+
+
