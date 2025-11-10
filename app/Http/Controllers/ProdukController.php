@@ -3,8 +3,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Produk;
 use Illuminate\Http\Request;
-use Storage;
-use Str;
 
 class ProdukController extends Controller
 {
@@ -24,24 +22,24 @@ class ProdukController extends Controller
     {
         //validate form
         $validated = $request->validate([
-            'nama'      => 'required|min:5',
-            'harga'     => 'required',
-            'image'     => 'required|image|mimes:jpeg,jpg,png|max:2048',
-            'deskripsi' => 'required|min:10',
+            'nama_produk' => 'required|min:5',
+            'harga'       => 'required',
+            'stok'        => 'required|',
         ]);
 
-        $produk            = new Produk();
-        $produk->nama      = $request->nama;
-        $produk->harga     = $request->harga;
-        $produk->deskripsi = $request->deskripsi;
+    $produk              = new Produk();
+    // DB column is `nama`, form field is `nama_produk` — map accordingly
+    $produk->nama  = $request->nama_produk;
+    $produk->harga = $request->harga;
+    $produk->stok  = $request->stok;
         // upload image
-        if ($request->hasFile('image')) {
-            $file       = $request->file('image');
-            $randomName = Str::random(20) . '.' . $file->getClientOriginalExtension();
-            $path       = $file->storeAs('produks', $randomName, 'public');
-            // memasukan nama image nya ke database
-            $produk->image = $path;
-        }
+        // if ($request->hasFile('image')) {
+        //     $file       = $request->file('image');
+        //     $randomName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+        //     $path       = $file->storeAs('produks', $randomName, 'public');
+        //     // memasukan nama_produk image nya ke database
+        //     $produk->image = $path;
+        // }
 
         $produk->save();
         return redirect()->route('produk.index');
@@ -61,29 +59,28 @@ class ProdukController extends Controller
 
     public function update(Request $request, $id)
     {
-        $this->validate($request, [
-            'nama'      => 'required|min:5',
-            'harga'     => 'required|min:5',
-            'deskripsi' => 'required|min:10',
+        $validated = $request->validate([
+            'nama_produk' => 'required|min:5',
+            'harga'       => 'required',
+            'stok'        => 'required|',
         ]);
 
-        $produk            = Produk::findOrFail($id);
-        $produk->nama      = $request->nama;
-        $produk->harga     = $request->harga;
-        $produk->deskripsi = $request->deskripsi;
-        if ($request->hasFile('image')) {
-            // hapus gambar lama jika ada
-            if ($produk->image) {
-                Storage::delete('public/produks/' . $produk->image);
-            }
+    $produk              = Produk::findOrFail($id);
+    // Map form `nama_produk` to DB `nama`
+    $produk->nama  = $request->nama_produk;
+    $produk->harga = $request->harga;
+    $produk->stok  = $request->stok;
+        // if ($request->hasFile('image')) {
+        //     // menghapus foto lama
+        //     Storage::disk('public')->delete($produk->image);
 
-            // upload gambar baru
-            $image = $request->file('image');
-            $image->storeAs('public/produks', $image->hashName());
-            $produk->image = $image->hashName();
-        }
-
-        $produk->image = $image->hashName();
+        //     // upload foto baru
+        //     $file       = $request->file('image');
+        //     $randomName = Str::random(20) . '.' . $file->getClientOriginalExtension();
+        //     $path       = $file->storeAs('produks', $randomName, 'public');
+        //     // memasukan nama_produk image nya ke database
+        //     $produk->image = $path;
+        // }
         $produk->save();
         return redirect()->route('produk.index');
 
@@ -92,7 +89,7 @@ class ProdukController extends Controller
     public function destroy($id)
     {
         $produk = Produk::findOrFail($id);
-        Storage::delete('public/produks/' . $produk->image);
+        // Storage::disk('public')->delete($produk->image);
         $produk->delete();
         return redirect()->route('produk.index');
 
