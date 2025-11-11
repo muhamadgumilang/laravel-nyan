@@ -208,7 +208,7 @@ Route::resource('wali', App\Http\Controllers\WaliController::class);
 
 // 5
 use App\Http\Controllers\PelangganController;
-
+Route::get('transaksi/search', [App\Http\Controllers\TransaksiController::class, 'search'])->name('transaksi.search');
 Route::resource('pelanggan', PelangganController::class);
 Route::resource('produk', App\Http\Controllers\ProdukController::class);
 Route::resource('transaksi', App\Http\Controllers\TransaksiController::class);
